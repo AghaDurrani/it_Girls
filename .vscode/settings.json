@@ -1,0 +1,23 @@
+{
+    // Font
+    "editor.fontFamily": "JetBrains Mono, Menlo, monospace",
+    "terminal.integrated.fontFamily": "JetBrains Mono, Menlo, monospace",
+
+    // Indentation
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+
+    // Line length
+    "editor.rulers": [ 79 ],
+    "editor.wordWrap": "off",
+    "[markdown]": {
+        "editor.wordWrap": "off"
+    },
+
+    // Whitespace
+    "editor.renderWhitespace": "boundary",
+
+    // Various
+    "explorer.sortOrder": "type"
+}

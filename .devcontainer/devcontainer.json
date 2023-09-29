@@ -1,0 +1,23 @@
+{
+    "name": "streamlit-template",
+    "image": "mcr.microsoft.com/devcontainers/python:3",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/terraform:1": {}
+    },
+    "postCreateCommand": "pip install -r requirements.txt",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-python.vscode-pylance",
+                "ms-azuretools.vscode-docker",
+                "hashicorp.terraform",
+                "Exelord.git-commits",
+                "GitHub.copilot"
+            ]
+        }
+    },
+    "forwardPorts": [8501]
+}
