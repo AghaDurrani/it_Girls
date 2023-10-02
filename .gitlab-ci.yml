@@ -1,5 +1,5 @@
 variables:
-  REPOSITIRY_NAME: "dgis-prs-std-docker-local"
+  REPOSITORY_NAME: "dgis-prs-std-docker-local"
   PROJECT_NAME: "streamlit-template"
   TAG_NAME: "latest"
 
