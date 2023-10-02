@@ -1,6 +1,7 @@
 variables:
-  PROJ_NAME: "streamlit-template"
-  REPO_NAME: "dgis-prs-std-docker-local"
+  REPOSITIRY_NAME: "dgis-prs-std-docker-local"
+  PROJECT_NAME: "streamlit-template"
+  TAG_NAME: "latest"
 
 stages:
   - build
@@ -12,4 +13,4 @@ docker-job:
     entrypoint: [""]
   script:
     - echo "{\"auths\":{\"artifactory.sofa.dev\":{\"username\":\"$ARTIFACTORY_USER\",\"password\":\"$ARTIFACTORY_PASS\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPO_NAME/$PROJ_NAME:$CI_COMMIT_SHORT_SHA
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPOSITORY_NAME/$PROJECT_NAME:$TAG_NAME
