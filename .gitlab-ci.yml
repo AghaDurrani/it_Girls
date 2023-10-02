@@ -6,7 +6,7 @@ variables:
 stages:
   - build
 
-docker-job:
+docker-build-job:
   stage: build
   image: 
     name: artifactory.sofa.dev/gcr-remote/kaniko-project/executor:debug
