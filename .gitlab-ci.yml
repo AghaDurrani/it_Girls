@@ -1,5 +1,6 @@
 stages:
-  - base
+  - build
+  - deploy
 
 variables:
   REPOSITORY_NAME: dgis-prs-std-docker-local
@@ -54,7 +55,7 @@ create-docker-credentials:
     - when: manual
 
 uninstall_application:
-  stage: base
+  stage: deploy
   image:
     name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
   <<: *setup_kube
@@ -67,7 +68,7 @@ uninstall_application:
     - when: manual
 
 install_application:
-  stage: base
+  stage: deploy
   image:
     name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
   tags:
