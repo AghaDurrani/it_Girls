@@ -1,16 +1,80 @@
-variables:
-  REPOSITORY_NAME: "dgis-prs-std-docker-local"
-  PROJECT_NAME: "streamlit-template"
-  TAG_NAME: "latest"
-
 stages:
-  - build
+  - base
 
-docker-build-job:
+variables:
+  REPOSITORY_NAME: dgis-prs-std-docker-local
+  PROJECT_NAME: streamlit-template
+  TAG_NAME: latest
+  GITLAB_RUNNER: GabiDevRunner
+  GIT_ENV: lab
+  KUBE_NAMESPACE: lab-suptec-poc
+
+.setup_kube: &setup_kube
+  before_script:
+    # Add Kube config
+    - mkdir -p /root/.kube
+    - if [ "$GIT_ENV" == "test" ]; then cp $KUBECFG_TEST ~/.kube/config;
+      elif [ "$GIT_ENV" == "stage" ]; then cp $KUBECFG_STAGE ~/.kube/config;
+      elif [ "$GIT_ENV" == "prod" ]; then cp $KUBECFG_PROD ~/.kube/config;
+      else echo "$KUBECFG_DEV" > /root/.kube/config; fi
+    - chmod go-rwx /root/.kube/config
+    - export KUBECONFIG=/root/.kube/config
+    # Add AWS config
+    - mkdir -p /root/.aws
+    - if [ "$GIT_ENV" == "test" ]; then cp $AWS_CONFIG_TEST ~/.aws/config;
+      elif [ "$GIT_ENV" == "stage" ]; then cp $AWS_CONFIG_STAGE ~/.aws/config;
+      elif [ "$GIT_ENV" == "prod" ]; then cp $AWS_CONFIG_PROD ~/.aws/config;
+      else echo "$AWS_CONFIG_DEV" > /root/.aws/config; fi
+    - chmod go-rwx /root/.aws/config
+    - export AWS_PROFILE=default
+
+build-docker-image:
   stage: build
-  image: 
+  image:
     name: artifactory.sofa.dev/gcr-remote/kaniko-project/executor:debug
     entrypoint: [""]
   script:
     - echo "{\"auths\":{\"artifactory.sofa.dev\":{\"username\":\"$ARTIFACTORY_USER\",\"password\":\"$ARTIFACTORY_PASS\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPOSITORY_NAME/$PROJECT_NAME:$TAG_NAME
+
+create-docker-credentials:
+  stage: deploy
+  image:
+    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
+  <<: *setup_kube
+  tags:
+    - $GITLAB_RUNNER
+  variables:
+    KUBECFG_DEV: $KUBECFG_DEV
+    USERNAME: $ARTIFACTORY_USER
+    PASSWORD: $ARTIFACTORY_PASS
+  script:
+    - kubectl create secret docker-registry regcred --docker-server="artifactory.sofa.dev" --docker-username=$USERNAME --docker-password=$PASSWORD -n $KUBE_NAMESPACE
+  rules:
+    - when: manual
+
+uninstall_application:
+  stage: base
+  image:
+    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
+  <<: *setup_kube
+  tags:
+    - $GITLAB_RUNNER
+  script:
+    - cd ./helm
+    - helm uninstall $PROJECT_NAME
+  rules:
+    - when: manual
+
+install_application:
+  stage: base
+  image:
+    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
+  tags:
+    - $GITLAB_RUNNER
+  <<: *setup_kube
+  script:
+    - cd ./helm
+    - helm install $PROJECT_NAME
+  rules:
+    - when: manual
