@@ -40,6 +40,7 @@ build-docker-image:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPOSITORY_NAME/$PROJECT_NAME:$TAG_NAME
   rules:
     - when: manual
+  allow_failure: true
 
 create-docker-credentials:
   stage: auth
@@ -56,6 +57,7 @@ create-docker-credentials:
     - kubectl create secret docker-registry regcred --docker-server="artifactory.sofa.dev" --docker-username=$USERNAME --docker-password=$PASSWORD -n $KUBE_NAMESPACE
   rules:
     - when: manual
+  allow_failure: true
 
 uninstall_application:
   stage: deploy
@@ -69,6 +71,7 @@ uninstall_application:
     - helm uninstall "$PROJECT_NAME"
   rules:
     - when: manual
+  allow_failure: true
 
 install_application:
   stage: deploy
@@ -82,3 +85,4 @@ install_application:
     - helm install "$PROJECT_NAME"
   rules:
     - when: manual
+  allow_failure: true
