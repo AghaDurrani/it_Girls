@@ -68,7 +68,7 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - cd ./helm
-    - helm uninstall $PROJECT_NAME
+    - helm uninstall $PROJECT_NAME $PROJECT_NAME
   rules:
     - when: manual
   allow_failure: true
@@ -82,8 +82,7 @@ install_application:
   <<: *setup_kube
   script:
     - cd ./helm
-    - echo $PROJECT_NAME
-    - helm install $PROJECT_NAME
+    - helm install $PROJECT_NAME $PROJECT_NAME
   rules:
     - when: manual
   allow_failure: true
