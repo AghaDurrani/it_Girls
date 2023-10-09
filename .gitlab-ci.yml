@@ -82,6 +82,7 @@ install_application:
   <<: *setup_kube
   script:
     - cd ./helm
+    - ls -a
     - helm repo update $PROJECT_NAME
     - helm install $PROJECT_NAME --generate-name
   rules:
