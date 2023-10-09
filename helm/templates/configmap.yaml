@@ -1,8 +1,7 @@
-apiVersion: v2
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
   namespace: {{ .Values.namespace }}
 data:
   app_path: "{{ .Values.paths.app }}"
-  
