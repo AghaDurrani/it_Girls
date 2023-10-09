@@ -68,7 +68,6 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - cd ./helm
-    - echo $PROJECT_NAME
     - helm uninstall $PROJECT_NAME
   rules:
     - when: manual
@@ -83,6 +82,7 @@ install_application:
   <<: *setup_kube
   script:
     - cd ./helm
+    - echo $PROJECT_NAME
     - helm install $PROJECT_NAME
   rules:
     - when: manual
