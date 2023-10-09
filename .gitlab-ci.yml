@@ -68,6 +68,7 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - cd ./helm
+    - echo $PROJECT_NAME
     - helm uninstall $PROJECT_NAME
   rules:
     - when: manual
