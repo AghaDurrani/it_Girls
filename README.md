@@ -37,7 +37,11 @@ Stage `deploy`:
 - Job `install-application` — bla bla bla
 - Job `install-application` — bla bla bla
 
-## 3. Contributors
+## 3. Demo
+
+To view a sample deployment of this template, go to https://streamlit-template.k8s.aws.tadnet.net/ via TaDNet Chrome.
+
+## 4. Contributors
 
 * [Lucas Konstantin Bärenfänger](mailto:lucas_konstantin.barenfanger.external@ecb.europa.eu)
 * [Tomas Hroch](mailto:tomas.hroch@ecb.europa.eu)
