@@ -2,32 +2,42 @@
 
 **A template to quickly build a Streamlit app and deploy it to AWS**
 
-## Description
+## 1. Description
 
-This repository contains:
-* the [Streamlit demo app](https://docs.streamlit.io/library/get-started/create-an-app), exploring a public Uber dataset for pickups and drop-offs in New York City
-* a Dockerfile, containerizing the app to make it instantly runnable and easily deployable
-* a Terraform configuration, leveraging IaC to automate deloyment to AWS **(in progress)**
-* a Devcontainer/VS Code configuration, allowing for development in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa)
+🚀 **Streamlit demo app** — Quickly build upon Streamlit's boilerplate project<br>
+🛠️ **Devcontainer config** — Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
+🐳 **Docker container** — Instantly run the project anywhere, in a well-defined env that includes all deps<br>
+🇪🇺 **SOFA CI/CD pipelines** — Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
-## Usage
+## 2. Usage
 
-### Run locally
+### 2.1. Run locally
 
-The following steps assume that you have cloned this repository and have `docker` (or `podman`) installed.
+Prerequisites:
+- Recommended: Make use of the Devcontainer config and open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where all deps and tools needed for development are provided out of the box.
+- Alternative: Clone this repository and have `docker` (or `podman`) installed.
 
-**➡️ Simply open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where `docker` will be provided out of the box.**
-
+Build and run:
 1. Navigate into the repository: `cd path/to/streamlit-template`
 2. Set Streamlit's `config.toml` to local: `cd .streamlit && mv config.toml config-prod.toml && mv config-local.toml config.toml && cd ..`
 3. Build an image from the Dockerfile: `docker build . --tag streamlit-template`
 4. Pull the image and start the container: `docker run --detach --publish 8501:8501 streamlit-template`
 5. Open your browser and go to [localhost:8501](localhost:8501).
 
-### Deploy to AWS
+### 2.2. Deploy to AWS K8s
 
-Trigger the execution of the PCS-configured pipeline, which will provision and manage the AWS infrastructure based on the Terraform configuration files.
+To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the stages/jobs described below via GitLab.
+Note that every job needs to be triggered manually, as it is not necessary or sensible to run each job for every commit.
 
-## Contributors
+Stage `build`:
+- Job `build-docker-image` — bla bla bla
+
+Stage `deploy`:
+- Job `create-docker-credentials` — bla bla bla
+- Job `install-application` — bla bla bla
+- Job `install-application` — bla bla bla
+
+## 3. Contributors
 
 * [Lucas Konstantin Bärenfänger](mailto:lucas_konstantin.barenfanger.external@ecb.europa.eu)
+* [Tomas Hroch](mailto:tomas.hroch@ecb.europa.eu)
