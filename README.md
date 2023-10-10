@@ -19,9 +19,10 @@ The following steps assume that you have cloned this repository and have `docker
 **➡️ Simply open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where `docker` will be provided out of the box.**
 
 1. Navigate into the repository: `cd path/to/streamlit-template`
-2. Build an image from the Dockerfile: `docker build . --tag streamlit-template`
-3. Pull the image and start the container: `docker run --detach --publish 8501:8501 streamlit-template`
-4. Open your browser and go to [localhost:8501](localhost:8501).
+2. Set Streamlit's `config.toml` to local: `cd .streamlit && mv config.toml config-prod.toml && mv config-local.toml config.toml && cd ..`
+3. Build an image from the Dockerfile: `docker build . --tag streamlit-template`
+4. Pull the image and start the container: `docker run --detach --publish 8501:8501 streamlit-template`
+5. Open your browser and go to [localhost:8501](localhost:8501).
 
 ### Deploy to AWS
 
