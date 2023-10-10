@@ -81,7 +81,7 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - cd ./helm
-    - helm uninstall --set name=$GIT_ENV $PROJECT_NAME ./helm
+    - helm uninstall $PROJECT_NAME ./helm
   rules:
     - when: manual
   allow_failure: true
