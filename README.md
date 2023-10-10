@@ -1,4 +1,4 @@
-# streamlit-template
+# Streamlit Template
 
 **A template to quickly build a Streamlit app and deploy it to AWS**
 
