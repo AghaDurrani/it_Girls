@@ -1,0 +1,9 @@
+[theme]
+primaryColor="#00858C"
+
+[logger]
+level = "debug"
+
+[browser]
+serverAddress = "streamlit-template.k8s.aws.tadnet.net"
+serverPort = 80
