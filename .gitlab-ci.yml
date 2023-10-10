@@ -59,6 +59,19 @@ create-docker-credentials:
     - when: manual
   allow_failure: true
 
+install_application:
+  stage: deploy
+  image:
+    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
+  tags:
+    - $GITLAB_RUNNER
+  <<: *setup_kube
+  script:
+    helm install --set name=$GIT_ENV $PROJECT_NAME ./helm
+  rules:
+    - when: manual
+  allow_failure: true
+
 uninstall_application:
   stage: deploy
   image:
@@ -69,19 +82,6 @@ uninstall_application:
   script:
     - cd ./helm
     - helm uninstall --set name=$GIT_ENV $PROJECT_NAME ./helm
-  rules:
-    - when: manual
-  allow_failure: true
-
-install_application:
-  stage: deploy
-  image:
-    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
-  tags:
-    - $GITLAB_RUNNER
-  <<: *setup_kube
-  script:
-    helm install --set name=$GIT_ENV $PROJECT_NAME ./helm
   rules:
     - when: manual
   allow_failure: true
