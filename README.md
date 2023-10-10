@@ -35,7 +35,7 @@ Stage `build`:
 Stage `deploy`:
 - Job `create-docker-credentials` — bla bla bla
 - Job `install-application` — bla bla bla
-- Job `install-application` — bla bla bla
+- Job `uninstall-application` — bla bla bla
 
 ## 3. Demo
 
