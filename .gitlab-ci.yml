@@ -80,8 +80,7 @@ uninstall_application:
   tags:
     - $GITLAB_RUNNER
   script:
-    - cd ./helm
-    - helm uninstall $PROJECT_NAME ./helm
+    - helm uninstall $PROJECT_NAME
   rules:
     - when: manual
   allow_failure: true
