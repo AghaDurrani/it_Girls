@@ -1,6 +1,5 @@
 stages:
   - build
-  - auth
   - deploy
 
 variables:
@@ -43,7 +42,7 @@ build-docker-image:
   allow_failure: true
 
 create-docker-credentials:
-  stage: auth
+  stage: deploy
   image:
     name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
   <<: *setup_kube
