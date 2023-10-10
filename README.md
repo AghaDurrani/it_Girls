@@ -6,15 +6,15 @@
 
 🚀 **Streamlit demo app** — Quickly build upon Streamlit's boilerplate project<br>
 🛠️ **Devcontainer config** — Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
-🐳 **Docker container** — Instantly run the project anywhere, in a well-defined env that includes all deps<br>
-🇪🇺 **SOFA CI/CD pipelines** — Instantly deploy to AWS K8s, with all ECB-specific configs already in place
+🐳 **Docker container** — Instantly run the project anywhere, in a well-defined container that includes all deps<br>
+🏗️ **SOFA CI/CD pipelines** — Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
 ## 2. Usage
 
 ### 2.1. Run locally
 
 Prerequisites:
-- Recommended: Make use of the Devcontainer config and open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where all deps and tools needed for development are provided out of the box.
+- Recommended: Open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where all deps and tools needed for development are provided out of the box.
 - Alternative: Clone this repository and have `docker` (or `podman`) installed.
 
 Build and run:
@@ -26,7 +26,7 @@ Build and run:
 
 ### 2.2. Deploy to AWS K8s
 
-To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the stages/jobs described below via GitLab.
+To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the stages/jobs described below via GitLab.<br>
 Note that every job needs to be triggered manually, as it is not necessary or sensible to run each job for every commit.
 
 Stage `build`:
