@@ -68,7 +68,7 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - cd ./helm
-    - helm uninstall $PROJECT_NAME --generate-name
+    - helm uninstall --set name=$GIT_ENV $PROJECT_NAME ./helm
   rules:
     - when: manual
   allow_failure: true
@@ -81,7 +81,6 @@ install_application:
     - $GITLAB_RUNNER
   <<: *setup_kube
   script:
-    # - cd ./helm
     helm install --set name=$GIT_ENV $PROJECT_NAME ./helm
   rules:
     - when: manual
