@@ -1,6 +1,5 @@
 stages:
-  - build
-  - deploy
+  - base
 
 variables:
   REPOSITORY_NAME: dgis-prs-std-docker-local
@@ -29,20 +28,8 @@ variables:
     - chmod go-rwx /root/.aws/config
     - export AWS_PROFILE=default
 
-build-docker-image:
-  stage: build
-  image:
-    name: artifactory.sofa.dev/gcr-remote/kaniko-project/executor:debug
-    entrypoint: [""]
-  script:
-    - echo "{\"auths\":{\"artifactory.sofa.dev\":{\"username\":\"$ARTIFACTORY_USER\",\"password\":\"$ARTIFACTORY_PASS\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPOSITORY_NAME/$PROJECT_NAME:$TAG_NAME
-  rules:
-    - when: manual
-  allow_failure: true
-
 create-docker-credentials:
-  stage: deploy
+  stage: base
   image:
     name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
   <<: *setup_kube
@@ -58,21 +45,20 @@ create-docker-credentials:
     - when: manual
   allow_failure: true
 
-install_application:
-  stage: deploy
+build-docker-image:
+  stage: base
   image:
-    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
-  tags:
-    - $GITLAB_RUNNER
-  <<: *setup_kube
+    name: artifactory.sofa.dev/gcr-remote/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
-    helm install --set name=$GIT_ENV $PROJECT_NAME ./helm
+    - echo "{\"auths\":{\"artifactory.sofa.dev\":{\"username\":\"$ARTIFACTORY_USER\",\"password\":\"$ARTIFACTORY_PASS\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --single-snapshot --destination artifactory.sofa.dev/$REPOSITORY_NAME/$PROJECT_NAME:$TAG_NAME
   rules:
     - when: manual
   allow_failure: true
 
 uninstall_application:
-  stage: deploy
+  stage: base
   image:
     name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
   <<: *setup_kube
@@ -80,6 +66,19 @@ uninstall_application:
     - $GITLAB_RUNNER
   script:
     - helm uninstall $PROJECT_NAME
+  rules:
+    - when: manual
+  allow_failure: true
+
+install_application:
+  stage: base
+  image:
+    name: artifactory.sofa.dev/gabi-docker-local/gabi-deployment-runner-main:latest
+  tags:
+    - $GITLAB_RUNNER
+  <<: *setup_kube
+  script:
+    helm install --set name=$GIT_ENV $PROJECT_NAME ./helm
   rules:
     - when: manual
   allow_failure: true
