@@ -30,13 +30,13 @@ To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL
 Note that every job needs to be triggered manually, as it is not necessary or sensible to run every job for every commit.
 
 - Job `create-docker-credentials`
-  - Creates a secret on the K8s cluser containing the registry credentials
+  - Creates a secret on the K8s cluser containing the Artifactory registry credentials
   - Trigger once to store credentials
 - Job `build-docker-image`
   - Builds a new Docker image and pushes it to the Artifactory registry
   - Trigger to deploy source code changes
 - Job `uninstall-application`
-  - Uninstalls the application
+  - Uninstalls the application on the K8s cluster using Helm
   - Trigger before installing an updated version of the application
 - Job `install-application`
   - Installs the application on the K8s cluster using Helm
