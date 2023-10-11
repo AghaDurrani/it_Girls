@@ -4,7 +4,7 @@
 
 ### Quickly build a Streamlit app and deploy it to the Shared K8s Cluster on AWS
 
-<hr>
+<br>
 
 🚀 **Streamlit demo app**<br>
 Quickly build upon Streamlit's boilerplate project<br>
