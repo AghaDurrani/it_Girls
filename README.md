@@ -4,18 +4,16 @@
 
 **A template to quickly build a Streamlit app and deploy it to AWS**
 
-## 1. Description
-
-🚀 **Streamlit demo app**
+🚀 **Streamlit demo app**<br>
 Quickly build upon Streamlit's boilerplate project<br>
 
-🛠️ **Devcontainer config**
+🛠️ **Devcontainer config**<br>
 Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
 
-🐳 **Docker container**
+🐳 **Docker container**<br>
 Instantly run the project anywhere, in a well-defined container that includes all deps<br>
 
-🏗️ **SOFA CI/CD pipelines**
+🏗️ **SOFA CI/CD pipelines**<br>
 Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
 </div>
