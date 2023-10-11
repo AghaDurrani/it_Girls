@@ -15,7 +15,7 @@ Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
 🐳 **Docker container**<br>
 Instantly run the project anywhere, in a well-defined container that includes all deps<br>
 
-🏗️ **SOFA CI/CD pipelines**<br>
+🏗️ **SOFA CI/CD pipeline**<br>
 Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
 </div>
