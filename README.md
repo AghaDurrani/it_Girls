@@ -2,7 +2,9 @@
 
 # Streamlit Template
 
-**A template to quickly build a Streamlit app and deploy it to AWS**
+<div style="font-size: 18px; font-weight: bold">
+  A template to quickly build a Streamlit app and deploy it to AWS
+</div>
 
 🚀 **Streamlit demo app**<br>
 Quickly build upon Streamlit's boilerplate project<br>
