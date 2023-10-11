@@ -1,19 +1,28 @@
 <div align="center">
+
 # Streamlit Template
 
 **A template to quickly build a Streamlit app and deploy it to AWS**
 
 ## 1. Description
 
-🚀 **Streamlit demo app** — Quickly build upon Streamlit's boilerplate project<br>
-🛠️ **Devcontainer config** — Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
-🐳 **Docker container** — Instantly run the project anywhere, in a well-defined container that includes all deps<br>
-🏗️ **SOFA CI/CD pipelines** — Instantly deploy to AWS K8s, with all ECB-specific configs already in place
+🚀 **Streamlit demo app**
+Quickly build upon Streamlit's boilerplate project<br>
+
+🛠️ **Devcontainer config**
+Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
+
+🐳 **Docker container**
+Instantly run the project anywhere, in a well-defined container that includes all deps<br>
+
+🏗️ **SOFA CI/CD pipelines**
+Instantly deploy to AWS K8s, with all ECB-specific configs already in place
+
 </div>
 
-## 2. Usage
+## Usage
 
-### 2.1. Run locally
+### Run locally
 
 Prerequisites:
 - Recommended: Open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where all deps and tools needed for development are provided out of the box.
@@ -26,7 +35,7 @@ Build and run:
 4. Pull the image and start the container: `docker run --detach --publish 8501:8501 streamlit-template`
 5. Open your browser and go to [localhost:8501](localhost:8501).
 
-### 2.2. Deploy to AWS K8s
+### Deploy to AWS K8s
 
 To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the jobs described below via GitLab.<br>
 Note that every job needs to be triggered manually, as it is not necessary or sensible to run every job for every commit.
@@ -44,11 +53,11 @@ Note that every job needs to be triggered manually, as it is not necessary or se
   - Installs the application on the K8s cluster using Helm
   - Trigger to install an updated version of the application
 
-## 3. Demo
+## Demo
 
 To view a sample deployment of this template, go to https://streamlit-template.k8s.aws.tadnet.net/ via TaDNet Chrome.
 
-## 4. Contributors
+## Contributors
 
 * [Lucas Konstantin Bärenfänger](mailto:lucas_konstantin.barenfanger.external@ecb.europa.eu)
 * [Tomas Hroch](mailto:tomas.hroch@ecb.europa.eu)
