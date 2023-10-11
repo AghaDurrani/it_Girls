@@ -1,4 +1,4 @@
-<center>
+<div align="center">
 # Streamlit Template
 
 **A template to quickly build a Streamlit app and deploy it to AWS**
@@ -9,7 +9,7 @@
 🛠️ **Devcontainer config** — Instantly spin up a cloud-based dev env, including all deps and tools needed<br>
 🐳 **Docker container** — Instantly run the project anywhere, in a well-defined container that includes all deps<br>
 🏗️ **SOFA CI/CD pipelines** — Instantly deploy to AWS K8s, with all ECB-specific configs already in place
-</center>
+</div>
 
 ## 2. Usage
 
