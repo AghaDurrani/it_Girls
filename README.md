@@ -2,7 +2,7 @@
 
 # Streamlit Template
 
-**Quickly build a Streamlit app and deploy it to the Shared K8S Cluster on AWS**
+**Quickly build a Streamlit app and deploy it to the Shared K8s Cluster on AWS**
 
 <hr>
 
