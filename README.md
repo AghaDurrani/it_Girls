@@ -29,11 +29,16 @@ Prerequisites:
 - Alternative: Clone this repository and have `docker` (or `podman`) installed.
 
 Build and run:
-1. Navigate into the repository: `cd path/to/streamlit-template`
-2. Set Streamlit's `config.toml` to local: `cd .streamlit && mv config.toml config-prod.toml && mv config-local.toml config.toml && cd ..`
-3. Build an image from the Dockerfile: `docker build . --tag streamlit-template`
-4. Pull the image and start the container: `docker run --detach --publish 8501:8501 streamlit-template`
-5. Open your browser and go to [localhost:8501](localhost:8501).
+- Navigate into the repository
+  - `cd path/to/streamlit-template`
+- Switch to the local Streamlit configuration
+  - `cd .streamlit && mv config.toml config-prod.toml && mv config-local.toml config.toml && cd ..`
+  - This needs to be undone before deploying to the Shared K8s Cluster on AWS!
+- Build an image from the Dockerfile
+  - `docker build . --tag streamlit-template`
+- Pull the image and start the container
+  - `docker run --detach --publish 8501:8501 streamlit-template`
+- Open your browser and go to [localhost:8501](localhost:8501).
 
 ### Deploy to AWS K8s
 
