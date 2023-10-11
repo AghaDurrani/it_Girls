@@ -2,7 +2,7 @@
 
 # Streamlit Template
 
-**Quickly build a Streamlit app and deploy it to the Shared K8s Cluster on AWS**
+### Quickly build a Streamlit app and deploy it to the Shared K8s Cluster on AWS
 
 <hr>
 
@@ -20,9 +20,9 @@ Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
 </div>
 
-## Usage
+## 1. Usage
 
-### Run locally
+### 1.1. Run locally
 
 Prerequisites:
 - Recommended: Open this repository in [GitHub Codespaces](https://github.com/PRS-STD/codespace-sofa), where all deps and tools needed for development are provided out of the box.
@@ -40,7 +40,7 @@ Build and run:
   - `docker run --detach --publish 8501:8501 streamlit-template`
 - Open your browser and go to [localhost:8501](localhost:8501).
 
-### Deploy to the Shared K8s Cluster on AWS
+### 1.2. Deploy to the Shared K8s Cluster on AWS
 
 To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the jobs described below via GitLab.<br>
 Note that every job needs to be triggered manually, as it is not necessary or sensible to run every job for every commit.
@@ -58,11 +58,11 @@ Note that every job needs to be triggered manually, as it is not necessary or se
   - Installs the application on the K8s cluster using Helm
   - Trigger to install an updated version of the application
 
-## Demo
+## 2. Demo
 
 To view a sample deployment of this template, go to https://streamlit-template.k8s.aws.tadnet.net via TaDNet Chrome.
 
-## Contributors
+## 3. Contributors
 
 * [Lucas Konstantin Bärenfänger](mailto:lucas_konstantin.barenfanger.external@ecb.europa.eu)
 * [Tomas Hroch](mailto:tomas.hroch@ecb.europa.eu)
