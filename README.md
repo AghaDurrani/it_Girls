@@ -18,6 +18,8 @@ Instantly run the project anywhere, in a well-defined container that includes al
 🏗️ **SOFA CI/CD pipeline**<br>
 Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
+</div>
+
 ## Usage
 
 ### Run locally
