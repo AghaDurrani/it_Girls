@@ -26,16 +26,21 @@ Build and run:
 
 ### 2.2. Deploy to AWS K8s
 
-To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the stages/jobs described below via GitLab.<br>
-Note that every job needs to be triggered manually, as it is not necessary or sensible to run each job for every commit.
+To deploy the project to ECB's Shared K8s Cluster and obtain a `.tadnet.net` URL, trigger the jobs described below via GitLab.<br>
+Note that every job needs to be triggered manually, as it is not necessary or sensible to run every job for every commit.
 
-Stage `build`:
-- Job `build-docker-image` — bla bla bla
-
-Stage `deploy`:
-- Job `create-docker-credentials` — bla bla bla
-- Job `install-application` — bla bla bla
-- Job `uninstall-application` — bla bla bla
+- Job `create-docker-credentials`
+  - Creates a secret on the K8s cluser containing the registry credentials
+  - Trigger once to store credentials
+- Job `build-docker-image`
+  - Builds a new Docker image and pushes it to the Artifactory registry
+  - Trigger to deploy source code changes
+- Job `uninstall-application`
+  - Uninstalls the application
+  - Trigger before installing an updated version of the application
+- Job `install-application`
+  - Installs the application on the K8s cluster using Helm
+  - Trigger to install an updated version of the application
 
 ## 3. Demo
 
