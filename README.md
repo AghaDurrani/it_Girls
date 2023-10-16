@@ -2,7 +2,7 @@
 
 # Suptech Analytics App Template
 
-### A template quickly build and deploy an analytics app for banking supervision
+### A template to quickly build and deploy an analytics app for banking supervision
 
 <br>
 
