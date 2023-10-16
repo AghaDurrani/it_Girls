@@ -1,8 +1,8 @@
 <div align="center">
 
-# Streamlit Template
+# Suptech Analytics App Template
 
-### Quickly build a Streamlit app and deploy it to the Shared K8s Cluster on AWS
+### A template quickly build and deploy an analytics app for banking supervision
 
 <br>
 
