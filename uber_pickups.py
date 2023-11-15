@@ -4,7 +4,26 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
 st.title('Uber pickups in NYC')
+
+# Google authentication
+st.subheader('Google authentication')
+client_id = "726921588578-gqa9vn25qk4sm8pr1uis5be3v3m9puu5.apps.googleusercontent.com"
+token = st.text_input('Enter your Google ID token', type='password')
+
+if st.button("Authenticate"):
+    try:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), client_id)
+        if idinfo['aud'] != client_id:
+            raise ValueError("Invalid client ID")
+        st.success(f"Authentication successful: {idinfo['name']}")
+        # Continue with the rest of your app logic here
+    except ValueError as e:
+        st.error("Authentication failed")
+        st.error(e)
 
 DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
