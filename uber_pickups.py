@@ -16,7 +16,7 @@ REVOKE_TOKEN_URL = "https://accounts.google.com/o/oauth2/auth"
 CLIENT_ID = "726921588578-gqa9vn25qk4sm8pr1uis5be3v3m9puu5.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
 REDIRECT_URI = "https://streamlit-template.k8s.aws.tadnet.net"
-SCOPE = "https://www.googleapis.com/auth/userinfo.email"
+SCOPE = "openid https://www.googleapis.com/auth/userinfo.email"
 
 # Create OAuth2Component instance
 oauth2 = OAuth2Component(CLIENT_ID, CLIENT_SECRET, AUTHORIZE_URL, TOKEN_URL, REFRESH_TOKEN_URL, REVOKE_TOKEN_URL)
@@ -38,6 +38,8 @@ else:
         token = oauth2.refresh_token(token)
         st.session_state.token = token
         st.experimental_rerun()
+
+st.write("Hello, world")
 
 DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
