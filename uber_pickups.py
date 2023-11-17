@@ -8,6 +8,9 @@ import requests
 from streamlit_oauth import OAuth2Component
 
 st.title('Streamlit Template')
+st.markdown('**A template to quickly build and deploy an analytics app for banking supervision**')
+
+st.divider()
 
 # Set environment variables
 AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth"
@@ -37,7 +40,7 @@ else:
     
     st.image(id_token['picture'], width=100)
     st.markdown(f"Enjoy your personalised experience, **{id_token['name']}**!")
-    st.markdown(f"You are logged in with the account **{id_token['email']}**!")
+    st.markdown(f"You are logged in with the account **{id_token['email']}**.")
     
     with st.expander("View OAuth 2 ID token"):
         st.json(id_token)
@@ -49,6 +52,8 @@ else:
         token = oauth2.refresh_token(token)
         st.session_state.token = token
         st.experimental_rerun()
+
+st.divider()
 
 DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
