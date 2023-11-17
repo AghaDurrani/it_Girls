@@ -3,6 +3,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import requests
 
 from streamlit_oauth import OAuth2Component
 
@@ -32,6 +33,8 @@ if 'token' not in st.session_state:
 else:
     # If token exists in session state, show the token
     token = st.session_state['token']
+    email = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token['id_token']}").json()['email']
+    st.subheader(f"Enjoy your personalised experience, {email}!")
     st.json(token)
     if st.button("Refresh Token"):
         # If refresh token button is clicked, refresh the token
