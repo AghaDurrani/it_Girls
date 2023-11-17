@@ -35,11 +35,11 @@ else:
     # If token exists in session state, show the token
     token = st.session_state['token']
     id_token = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token['id_token']}").json()
-    
+
     st.image(id_token['picture'], width=100)
     st.markdown(f"Enjoy your personalised experience, **{id_token['name']}**!")
     st.markdown(f"You are logged in with the account **{id_token['email']}**.")
-    
+
     with st.expander("View OAuth 2 ID token"):
         st.json(id_token)
     with st.expander("View OAuth2 auth token"):
