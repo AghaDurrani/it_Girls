@@ -7,7 +7,7 @@ import requests
 
 from streamlit_oauth import OAuth2Component
 
-st.title('Uber pickups in NYC')
+st.title('Streamlit Template')
 
 # Set environment variables
 AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth"
@@ -33,16 +33,22 @@ if 'token' not in st.session_state:
 else:
     # If token exists in session state, show the token
     token = st.session_state['token']
-    email = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token['id_token']}").json()['email']
-    st.subheader(f"Enjoy your personalised experience, {email}!")
-    st.json(token)
+    id_token = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token['id_token']}").json()
+    
+    st.image(id_token['picture'], width=100)
+    st.text(f"Enjoy your personalised experience, {id_token['name']}!")
+    st.text(f"You are using a Google account associated with the email address {id_token['email']}!")
+    
+    with st.expander("View OAuth 2 ID token"):
+        st.json(id_token)
+    with st.expander("View OAuth2 auth token"):
+        st.json(token)
+
     if st.button("Refresh Token"):
         # If refresh token button is clicked, refresh the token
         token = oauth2.refresh_token(token)
         st.session_state.token = token
         st.experimental_rerun()
-
-st.write("Hello, world")
 
 DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
@@ -59,9 +65,9 @@ def load_data(nrows):
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
 
-data_load_state = st.text('Loading data...')
+data_load_state = st.text('Loading Uber pickup data...')
 data = load_data(10000)
-data_load_state.text("Done! (using st.cache_data)")
+data_load_state.text("Uber pickup data has been loaded!")
 
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
