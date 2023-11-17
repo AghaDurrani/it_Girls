@@ -36,8 +36,8 @@ else:
     id_token = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token['id_token']}").json()
     
     st.image(id_token['picture'], width=100)
-    st.text(f"Enjoy your personalised experience, {id_token['name']}!")
-    st.text(f"You are using a Google account associated with the email address {id_token['email']}!")
+    st.markdown(f"Enjoy your personalised experience, **{id_token['name']}**!")
+    st.markdown(f"You are logged in with the account **{id_token['email']}**!")
     
     with st.expander("View OAuth 2 ID token"):
         st.json(id_token)
