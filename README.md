@@ -20,7 +20,7 @@ Instantly deploy to AWS K8s, with all ECB-specific configs already in place
 
 </div>
 
-## 1. Usage
+## 1. Use
 
 ### 1.1. Run locally
 
@@ -62,7 +62,44 @@ Note that every job needs to be triggered manually, as it is not necessary or se
 
 To view a sample deployment of this template, go to https://streamlit-template.k8s.aws.tadnet.net via TaDNet Chrome.
 
-## 3. Contributors
+## 3. Clone & Re-use
+
+After cloning the repo, edit the the following files before running the pipelines:
+- `.streamlit/`
+  - `config.toml`
+    - Line 8: Replace `serverAddress` with the new project's URL
+- `helm/`
+  - `Chart.yaml`
+    - Line 2: Replace `name` with the new project's name
+    - Line 3: Replace `description` with the new project's description
+  - `values.yaml`
+    - Line 8: Replace `repository` with the new project's repo URL
+    - Line 16: Replace `namespace` with the new project's K8s cluster ID
+    - Line 29: Replace `name` with the new project's name
+    - Line 64: Replace `host` with the new project's URL
+  - `templates/`
+    - `_helpers.tpl`
+      - Replace all mentionings of `streamlit-template` with the new project's name
+    - `deployment.yaml`
+      - Replace all mentionings of `streamlit-template` with the new project's name
+    - `ingress.yaml`
+      - Replace all mentionings of `streamlit-template` with the new project's name
+    - `service.yaml`
+      - Replace all mentionings of `streamlit-template` with the new project's name
+    - `serviceaccount.yaml`
+      - Replace all mentionings of `streamlit-template` with the new project's name
+- `.gitlab-ci.yml`
+  - Line 5: Replace `REPOSITORY NAME` with the new project's Docker repo in SOFA Artifactory
+  - Line 6: Replace `PROJECT_NAME` with the new project's name
+  - Line 8: Replace `GITLAB_RUNNER` with the new project's GitLab runner name
+  - Line 9: Replace `GIT_ENV` with the new project's deployment environment level
+  - Line 10: Replace `KUBE_NAMESPACE` with the new project's K8s cluster ID
+  - Line 32, 63, 76: Replace the GitLab runner Docker image URL
+- `streamlit-template/`
+  - `uber_pickups.py`
+    - Replace Google OAuth with the new project's auth provider
+
+## 4. Contributors
 
 * [Lucas Konstantin Bärenfänger](mailto:lucas_konstantin.barenfanger.external@ecb.europa.eu)
 * [Tomas Hroch](mailto:tomas.hroch@ecb.europa.eu)
