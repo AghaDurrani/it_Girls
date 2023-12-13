@@ -5,6 +5,7 @@ variables:
   REPOSITORY_NAME: dgis-prs-std-docker-local
   PROJECT_NAME: streamlit-template
   TAG_NAME: latest
+  GITLAB_RUNNER: GabiDevRunner
   GIT_ENV: lab
   KUBE_NAMESPACE: lab-suptec-poc
 
