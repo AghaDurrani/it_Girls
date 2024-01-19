@@ -40,6 +40,9 @@ create-docker-credentials:
     USERNAME: $ARTIFACTORY_USER
     PASSWORD: $ARTIFACTORY_PASS
   script:
+    - echo "Artifactory credentials"
+    - echo $ARTIFACTORY_USER
+    - echo $ARTIFACTORY_PASS
     - kubectl create secret docker-registry regcred --docker-server="artifactory.sofa.dev" --docker-username=$USERNAME --docker-password=$PASSWORD -n $KUBE_NAMESPACE
   rules:
     - when: manual
