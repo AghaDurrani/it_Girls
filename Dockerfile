@@ -6,8 +6,9 @@ ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 
 # Setting up environment variables for pip to use Artifactory as index
-ENV PIP_INDEX_URL=https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple
-ENV PIP_EXTRA_INDEX_URL=https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple
+variables:
+    PYPI_REMOTE: https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple
+    PYPI_LOCAL: https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple
 
 # Final stage using Python 3.10
 FROM python:3.10 as final
@@ -22,7 +23,7 @@ COPY . .
 RUN pip install --upgrade pip
 
 # Installing Python dependencies using pip with Artifactory as the index
-RUN pip install -i $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL -r requirements.txt --no-cache-dir
+RUN pip install -i $PYPI_REMOTE --extra-index-url $PYPI_LOCAL -r requirements.txt --no-cache-dir
 
 # Exposing the port that the app will run on
 EXPOSE 8501
