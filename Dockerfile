@@ -7,7 +7,7 @@ ARG ARTIFACTORY_PASS
 
 # Setting up environment variables for pip to use Artifactory as index
 ENV PIP_INDEX_URL=https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple
-ENV PIP_EXTRA_INDEX_URL=https://${ARTIFACTORY_USER}:${ARTIFACTORY_PASS}@artifactory.sofa.dev/artifactory/api/pypi/dgis-prs-std-pypi-local/simple
+ENV PIP_EXTRA_INDEX_URL=https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple
 
 # Final stage using Python 3.10
 FROM python:3.10 as final
