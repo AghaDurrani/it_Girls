@@ -7,7 +7,7 @@ import json
 
 import base64
 import streamlit as st
-import ecb_certify
+import ecb_certifi
 
 os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
 
