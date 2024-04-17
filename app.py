@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import base64
 from openai import OpenAI
-from vl_connect import env
+#from vl_connect import env
 import json
 
 import base64
@@ -15,7 +15,7 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 
-env.set_proxies(use_cert=True)
+#env.set_proxies(use_cert=True)
 
 
 def set_background(png_file):
