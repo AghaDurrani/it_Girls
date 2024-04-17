@@ -9,12 +9,12 @@ import base64
 import streamlit as st
 import ecb_certifi
 
-http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
-https_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
-os.environ['HTTP_PROXY'] = http_proxy
-os.environ['HTTPS_PROXY'] = https_proxy
+# http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
+# https_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
+# os.environ['HTTP_PROXY'] = http_proxy
+# os.environ['HTTPS_PROXY'] = https_proxy
 
-os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
+# os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
 
 def get_base64(bin_file):
     with open(bin_file, "rb") as f:
