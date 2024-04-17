@@ -1,11 +1,11 @@
-# Default values for streamlit-template.
+# Default values for eurobill.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: artifactory.sofa.dev/dgis-prs-std-docker-local/streamlit-template
+  repository: artifactory.sofa.dev/dgis-prs-std-docker-local/eurobill
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -26,7 +26,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "streamlit-template"
+  name: "eurobill"
 
 podAnnotations: {}
 
@@ -61,7 +61,7 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-body-size: 20m
   hosts:
-    - host: streamlit-template.k8s.aws.tadnet.net
+    - host: eurobill.k8s.aws.tadnet.net
       paths:
         - path: /
           pathType: ImplementationSpecific

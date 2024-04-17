@@ -3,7 +3,7 @@ stages:
 
 variables:
   REPOSITORY_NAME: dgis-prs-std-docker-local
-  PROJECT_NAME: streamlit-template
+  PROJECT_NAME: eurobill
   TAG_NAME: latest
   GITLAB_RUNNER: GabiDevRunner
   GIT_ENV: lab

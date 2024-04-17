@@ -5,5 +5,5 @@ primaryColor="#00858C"
 level = "debug"
 
 [browser]
-serverAddress = "streamlit-template.k8s.aws.tadnet.net"
+serverAddress = "eurobill.k8s.aws.tadnet.net"
 serverPort = 80
