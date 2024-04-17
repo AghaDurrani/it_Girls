@@ -22,7 +22,7 @@ COPY . .
 RUN pip install --upgrade pip
 
 # Installing Python dependencies using pip with Artifactory as the index
-RUN pip install --user -i $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL -r requirements.txt --no-cache-dir
+RUN pip install -i $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL -r requirements.txt --no-cache-dir
 
 # Exposing the port that the app will run on
 EXPOSE 8501
