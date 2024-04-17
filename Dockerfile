@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
 
 ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
