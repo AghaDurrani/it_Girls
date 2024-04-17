@@ -5,11 +5,6 @@ FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
 ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 
-# Setting up environment variables for pip to use Artifactory as index
-variables:
-    PYPI_REMOTE: https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple
-    PYPI_LOCAL: https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple
-
 # Final stage using Python 3.10
 FROM python:3.10 as final
 
@@ -19,11 +14,9 @@ WORKDIR /app
 # Copying all files from the context to the working directory in the container
 COPY . .
 
-# Upgrading pip to the latest version
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip && \
+    pip install -i https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple --extra-index-url https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple -r requirements.txt --no-cache-dir
 
-# Installing Python dependencies using pip with Artifactory as the index
-RUN pip install -i $PYPI_REMOTE --extra-index-url $PYPI_LOCAL -r requirements.txt --no-cache-dir
 
 # Exposing the port that the app will run on
 EXPOSE 8501
