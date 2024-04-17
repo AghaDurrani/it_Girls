@@ -28,4 +28,4 @@ RUN pip install --user -i $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL 
 EXPOSE 8501
 
 # Command to run the application using Streamlit
-CMD ["streamlit", "run", "app/Home.py"]
+CMD ["streamlit", "run", "app.py"]
