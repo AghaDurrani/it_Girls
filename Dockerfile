@@ -12,7 +12,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --upgrade pip
 RUN pip install --user -i $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL -r requirements.txt --no-cache-dir
 EXPOSE 8501
 
