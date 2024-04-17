@@ -1,4 +1,5 @@
 requests
 streamlit
 openai==1.5.0
+ecb_certifi
 
