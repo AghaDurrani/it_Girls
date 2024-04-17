@@ -7,7 +7,9 @@ import json
 
 import base64
 import streamlit as st
+import ecb_certify
 
+os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
 
 def get_base64(bin_file):
     with open(bin_file, "rb") as f:
