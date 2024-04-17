@@ -5,7 +5,7 @@ ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 ARG PIP_INDEX_URL=https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple
 ARG PIP_EXTRA_INDEX_URL= https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple
-FROM python:3.10 as final
+
 
 WORKDIR /app
 
