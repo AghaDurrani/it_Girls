@@ -1,4 +1,4 @@
-FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
+FROM artifactory.sofa.dev/docker-local/ubi8/python38-dev as build
 
 
 ARG ARTIFACTORY_USER
