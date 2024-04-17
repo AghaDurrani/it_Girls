@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "streamlit-template.fullname" . }}-test-connection"
+  name: "{{ include "eurobill.fullname" . }}-test-connection"
   labels:
-    {{- include "streamlit-template.labels" . | nindent 4 }}
+    {{- include "eurobill.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "streamlit-template.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "eurobill.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
