@@ -64,40 +64,28 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
-# def query_openai(image_url):
-#     """Queries OpenAI with an image URL."""
-#     chat_completion = client.chat.completions.create(
-#         messages=[
-#             {
-#                 "role": "user",
-#                 "content": [
-#                     {
-#                         "type": "text",
-#                         "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-#                     },
-#                     {
-#                         "type": "image_url",
-#                         "image_url": {"url": image_url, "detail": "high"},
-#                     },
-#                 ],
-#             }
-#         ],
-#         model="gpt-4-turbo-2024-04-09",
-#         response_format={"type": "json_object"},
-#     )
-#     return chat_completion
-
-
-def query_openai():
-    stream = client.chat.completions.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": "Say this is a test"}],
-        stream=True,
+def query_openai(image_url):
+    """Queries OpenAI with an image URL."""
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": image_url, "detail": "high"},
+                    },
+                ],
+            }
+        ],
+        model="gpt-4-turbo-2024-04-09",
+        response_format={"type": "json_object"},
     )
-    for chunk in stream:
-        if chunk.choices[0].delta.content is not None:
-            print(chunk.choices[0].delta.content, end="")
-
+    return chat_completion
 
 
 # Streamlit layout
@@ -118,15 +106,9 @@ if img_file_buffer is not None:
     encoded_data = base64.b64encode(img_file_buffer.getvalue())
     encoded_string = encoded_data.decode("utf-8")
     image_url = f"data:image/jpeg;base64,{encoded_string}"
-    #response = query_openai(image_url)
-    query_openai()
-    response_data = {
-        "euro_bill": "yes",  # or "no" depending on what you want to test
-        "explanation": "This is definitely a Euro bill because it has colorful designs and Europa's face."
-    }
+    response = query_openai(image_url)
 
-
-    #response_data = json.loads(response.choices[0].message.content)
+    response_data = json.loads(response.choices[0].message.content)
     euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
     explanation = response_data.get("explanation", "")
     response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
