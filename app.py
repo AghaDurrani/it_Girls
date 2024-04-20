@@ -66,7 +66,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 def query_openai(image_url):
-    """Queries OpenAI with an image URL and handles exceptions to provide detailed error messages."""
+    """Queries OpenAI with an image URL and returns the response and any error messages."""
     try:
         response = client.chat.completions.create(
             messages=[
@@ -87,15 +87,12 @@ def query_openai(image_url):
             model="gpt-4-turbo-2024-04-09",
             response_format={"type": "json_object"},
         )
-        return response
-    except openai.APIConnectionError as e:
-        detailed_error = f"Failed to connect to OpenAI API. Request details: {e.request}"
-        print(detailed_error)
-        raise Exception(detailed_error) from e
+        return response, None  # Return the response and no error
     except Exception as e:
-        # General exception handling if the error is not specifically about connection
-        print(f"An error occurred: {str(e)}")
-        raise
+        error_message = f"An error occurred: {str(e)}"
+        logging.error("Error querying OpenAI", exc_info=True)
+        return None, error_message  # Return no response and the error message
+
 
 
 # Streamlit layout
@@ -116,41 +113,44 @@ if img_file_buffer is not None:
     encoded_data = base64.b64encode(img_file_buffer.getvalue())
     encoded_string = encoded_data.decode("utf-8")
     image_url = f"data:image/jpeg;base64,{encoded_string}"
-    response = query_openai(image_url)
+    response, error = query_openai(image_url)
 
-    response_data = json.loads(response.choices[0].message.content)
-    euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
-    explanation = response_data.get("explanation", "")
-    response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
+    if error:
+        st.error(f"Error: {error}")  # Display the error in the UI
+    else:
+        response_data = json.loads(response.choices[0].message.content)
+        euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
+        explanation = response_data.get("explanation", "")
+        response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
 
-    box_color = "#4CAF50" if euro_bill else "#F44336"
+        box_color = "#4CAF50" if euro_bill else "#F44336"
 
-    explanation_box = f"""
-    <div style="
-        border: 1px solid {box_color};
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin: 1rem 0;
-        background-color: {box_color};
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    ">
-    <p>{explanation}</p>
-    </div>
-    """
-    response_box = f"""
-    <div style="
-        border: 1px solid {box_color};
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin: 1rem 0;
-        background-color: {box_color};
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    ">
-    <p>AI BOT: {response}</p>
-    </div>
-    """
-    st.markdown(response_box, unsafe_allow_html=True)
+        explanation_box = f"""
+        <div style="
+            border: 1px solid {box_color};
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: {box_color};
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        ">
+        <p>{explanation}</p>
+        </div>
+        """
+        response_box = f"""
+        <div style="
+            border: 1px solid {box_color};
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: {box_color};
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        ">
+        <p>AI BOT: {response}</p>
+        </div>
+        """
+        st.markdown(response_box, unsafe_allow_html=True)
+        st.markdown(explanation_box, unsafe_allow_html=True)
 
-    st.markdown(explanation_box, unsafe_allow_html=True)
