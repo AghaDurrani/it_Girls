@@ -7,7 +7,7 @@ import json
 
 import base64
 import streamlit as st
-import ecb_certifi
+#import ecb_certifi
 
 # http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
 # https_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
@@ -65,27 +65,36 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 def query_openai(image_url):
-    """Queries OpenAI with an image URL."""
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": image_url, "detail": "high"},
-                    },
-                ],
-            }
-        ],
-        model="gpt-4-turbo-2024-04-09",
-        response_format={"type": "json_object"},
-    )
-    return chat_completion
+    """Queries OpenAI with an image URL and handles exceptions to provide detailed error messages."""
+    try:
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": image_url, "detail": "high"},
+                        },
+                    ],
+                }
+            ],
+            model="gpt-4-turbo-2024-04-09",
+            response_format={"type": "json_object"},
+        )
+        return response
+    except openai.APIConnectionError as e:
+        detailed_error = f"Failed to connect to OpenAI API. Request details: {e.request}"
+        print(detailed_error)
+        raise Exception(detailed_error) from e
+    except Exception as e:
+        # General exception handling if the error is not specifically about connection
+        print(f"An error occurred: {str(e)}")
+        raise
 
 
 # Streamlit layout
