@@ -67,6 +67,9 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
+import requests
+import traceback
+
 def query_openai(image_url):
     """Queries OpenAI with an image URL and returns the response and any error messages."""
     try:
@@ -89,11 +92,19 @@ def query_openai(image_url):
             model="gpt-4-turbo-2024-04-09",
             response_format={"type": "json_object"},
         )
-        return response, None  # Return the response and no error
+        return response, None
+    except requests.exceptions.ConnectionError as e:
+        error_message = f"Connection error: {str(e)}\nURL: {e.request.url if e.request else 'No URL'}\nMethod: {e.request.method if e.request else 'No Method'}"
+        traceback_msg = traceback.format_exc()
+        error_details = f"{error_message}\n{traceback_msg}"
+        logging.error("Detailed connection error", exc_info=True)
+        return None, error_details
     except Exception as e:
-        error_message = f"An error occurred: {str(e)}"
-        logging.error("Error querying OpenAI", exc_info=True)
-        return None, error_message  # Return no response and the error message
+        traceback_msg = traceback.format_exc()
+        error_details = f"An unexpected error occurred: {str(e)}\n{traceback_msg}"
+        logging.error("General exception", exc_info=True)
+        return None, error_details
+
 
 
 
