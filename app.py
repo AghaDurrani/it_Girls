@@ -7,7 +7,7 @@ import logging
 from openai import OpenAI
 #from vl_connect import env
 import json
-
+import httpx
 import base64
 import streamlit as st
 #import ecb_certifi
@@ -23,7 +23,6 @@ def get_base64(bin_file):
     with open(bin_file, "rb") as f:
         data = f.read()
     return base64.b64encode(data).decode()
-
 
 
 
@@ -53,7 +52,7 @@ set_background("image8.png")
 
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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", httpx_client = httpx.Client(verify=False))
 
 page_bg_img = """
 <style>
