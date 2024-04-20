@@ -10,6 +10,7 @@ import json
 import httpx
 import base64
 import streamlit as st
+httpx_client = httpx.Client(verify=False)
 #import ecb_certifi
 
 # http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
@@ -52,7 +53,7 @@ set_background("image8.png")
 
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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", httpx_client = httpx.Client(verify=False))
+client = OpenAI(api_key="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", http_client = httpx_client)
 
 page_bg_img = """
 <style>
