@@ -2,6 +2,8 @@ import streamlit as st
 import os
 import base64
 import openai
+import traceback
+import logging
 from openai import OpenAI
 #from vl_connect import env
 import json
