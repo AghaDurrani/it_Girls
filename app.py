@@ -8,6 +8,7 @@ import base64
 import streamlit as st
 import ecb_certifi
 import urllib3
+import requests
 
 api_key = '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'
 proxies = {'https': 'http://127.0.0.1:8888'}
