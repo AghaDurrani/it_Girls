@@ -17,10 +17,14 @@ import ssl
 
 # Create a custom SSL context that specifies using TLS 1.2
 def create_secure_http_client():
+    # Create an SSL context
     ssl_context = ssl.create_default_context()
-    # Optionally force the use of TLS 1.2 (uncomment the next line if necessary)
-    # ssl_context.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3
-    client = httpx.Client(http2=True, verify=ssl_context)
+    ssl_context.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1  # Disable TLS 1.0 and 1.1
+    ssl_context.options |= ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3  # Disable SSL v2 and v3 for security reasons
+    ssl_context.set_ciphers('HIGH:!aNULL:!MD5:!RC4:!SHA1:!3DES')  # Set secure ciphers
+
+    # Use this SSL context in the HTTP client
+    client = httpx.Client(verify=ssl_context)
     return client
 
 # Initialize your OpenAI client with this custom-configured HTTP client
