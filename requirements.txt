@@ -1,4 +1,4 @@
-urllib3==1.23
+urllib3==1.25.11
 requests
 streamlit
 openai==1.5.0
