@@ -11,7 +11,6 @@ import urllib3
 import requests
 
 api_key = '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'
-proxies = {'https': 'http://127.0.0.1:8888'}
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
 httpx_client = httpx.Client(
