@@ -10,7 +10,7 @@ import ecb_certifi
 import urllib3
 
 api_key = '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'
-
+proxies = {'https': 'http://127.0.0.1:8888'}
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
 httpx_client = httpx.Client(
@@ -139,7 +139,7 @@ def query_openai(image_url):
     }
 
     try:
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(url, headers=headers, json=data, proxies=proxies, verify=False)
         response.raise_for_status()  # Raises stored HTTPError, if one occurred
         return response.json(), None
     except requests.HTTPError as e:
