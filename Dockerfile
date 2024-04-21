@@ -7,7 +7,7 @@ FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
 ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 
-FROM python:3.10 as final
+FROM python:3.12 as final
 
 
 # Setting the working directory
