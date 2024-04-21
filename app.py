@@ -72,9 +72,14 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 import requests
 import traceback
 
+import httpx
+import json
+import traceback
+
 def query_openai(image_url):
     """Queries OpenAI with an image URL and returns the response and any error messages."""
     try:
+        # Ensure your OpenAI client is correctly initialized elsewhere in your script with httpx_client passed as http_client
         response = client.chat.completions.create(
             messages=[
                 {
@@ -86,7 +91,7 @@ def query_openai(image_url):
                         },
                         {
                             "type": "image_url",
-                            "image_url": {"url": image_url, "detail": "high"},
+                            "image_url": image_url
                         },
                     ],
                 }
@@ -95,17 +100,23 @@ def query_openai(image_url):
             response_format={"type": "json_object"},
         )
         return response, None
-    except requests.exceptions.ConnectionError as e:
-        error_message = f"Connection error: {str(e)}\nURL: {e.request.url if e.request else 'No URL'}\nMethod: {e.request.method if e.request else 'No Method'}"
-        traceback_msg = traceback.format_exc()
-        error_details = f"{error_message}\n{traceback_msg}"
-        logging.error("Detailed connection error", exc_info=True)
+    except httpx.HTTPStatusError as e:
+        # HTTP status errors are thrown when the response status code indicates an error
+        error_details = f"HTTP status error: {e.response.status_code}, message: {str(e)}"
+        logging.error("HTTP status error", exc_info=True)
+        return None, error_details
+    except httpx.RequestError as e:
+        # Request errors are thrown when a request fails to send
+        error_details = f"Request error: {str(e)}"
+        logging.error("Request connection error", exc_info=True)
         return None, error_details
     except Exception as e:
+        # Handle general exceptions that could occur, for instance, in parsing responses or other unexpected conditions
         traceback_msg = traceback.format_exc()
         error_details = f"An unexpected error occurred: {str(e)}\n{traceback_msg}"
         logging.error("General exception", exc_info=True)
         return None, error_details
+
 
 
 
