@@ -114,7 +114,7 @@ import openai
 
 def query_openai(image_url):
     """Queries OpenAI with an image URL and returns both the result and any errors."""
-    url = 'https://api.openai.com/v1/chat/completions'
+    url = 'http://api.openai.com/v1/chat/completions'
     headers = {
         'Authorization': 'Bearer {api_key}',  # Replace YOUR_API_KEY with your actual API key
         'Content-Type': 'application/json'
