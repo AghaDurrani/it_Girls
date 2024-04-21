@@ -114,39 +114,40 @@ import openai
 
 def query_openai(image_url):
     """Queries OpenAI with an image URL and returns both the result and any errors."""
-    try:
-        response = httpx_client.post(
-            'https://api.openai.com/v1/chat/completions',
-            json={
-                "model": "gpt-4-turbo-2024-04-09",
-                "messages": [
+    url = 'https://api.openai.com/v1/chat/completions'
+    headers = {
+        'Authorization': 'Bearer {api_key}',  # Replace YOUR_API_KEY with your actual API key
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "model": "gpt-4-turbo-2024-04-09",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
                     {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": "Is this an euro bill? Respond in JSON with key 'euro_bill' which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12-year-old and a bit funny.",
-                            },
-                            {
-                                "type": "image_url",
-                                "image_url": {"url": image_url, "detail": "high"},
-                            },
-                        ],
-                    }
+                        "type": "text",
+                        "text": "Is this an euro bill? Respond in JSON with key 'euro_bill' which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12-year-old and a bit funny.",
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": image_url, "detail": "high"},
+                    },
                 ],
-            },
-        )
-        response.raise_for_status()
+            }
+        ],
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()  # Raises stored HTTPError, if one occurred
         return response.json(), None
-    except httpx.HTTPStatusError as e:
+    except requests.HTTPError as e:
         # When the response is an HTTP error
         return None, f"HTTP Error: {e.response.status_code} - {e.response.text}"
-    except httpx.RequestError as e:
-        # For errors in constructing the request or handling the response
+    except requests.RequestException as e:
+        # For network-related errors
         return None, f"Request Error: {str(e)}"
-    except httpx.HTTPError as e:
-        # Base class for all HTTPX exceptions, to catch all HTTP-related errors
-        return None, f"HTTP Error: {str(e)}"
     except Exception as e:
         # Generic catch-all for any other exceptions
         return None, f"An unexpected error occurred: {str(e)}"
