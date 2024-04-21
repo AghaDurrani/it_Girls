@@ -9,7 +9,9 @@ import streamlit as st
 import ecb_certifi
 import urllib3
 
-httpx_client = httpx.Client(verify=False)
+proxies = {'https': 'http://127.0.0.1:8888'}
+
+httpx_client = httpx.Client(proxies=proxies, verify=False)
 
 
 def get_base64(bin_file):
