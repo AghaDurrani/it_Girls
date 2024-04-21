@@ -11,22 +11,16 @@ import httpx
 import base64
 import streamlit as st
 import ecb_certifi
-#httpx_client = httpx.Client(verify=ecb_certifi.where())
-
-
-#httpx_client = httpx.Client(verify=False)
-
 import httpx
 import ssl
 
 
-ssl_context = ssl.create_default_context()
-ssl_context.options |= ssl.OP_NO_TLSv1  # Disable TLSv1
-ssl_context.options |= ssl.OP_NO_TLSv1_1  # Disable TLSv1.1
-ssl_context.set_ciphers('HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK')
+#httpx_client = httpx.Client(verify=ecb_certifi.where())
 
-# Initialize the HTTPX client with the custom SSL context
-httpx_client = httpx.Client(verify=ssl_context)
+
+httpx_client = httpx.Client(verify=False)
+
+
 
 
 def get_base64(bin_file):
