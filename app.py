@@ -9,7 +9,10 @@ import streamlit as st
 import ecb_certifi
 import urllib3
 
-proxies = {'https': 'http://127.0.0.1:8888'}
+proxies = {
+    'http': 'http://127.0.0.1:8888',
+    'https': 'http://127.0.0.1:8888'
+}
 
 httpx_client = httpx.Client(proxies=proxies, verify=False)
 
