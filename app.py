@@ -10,7 +10,9 @@ import json
 import httpx
 import base64
 import streamlit as st
-httpx_client = httpx.Client(verify=False)
+import ecb_certifi
+
+#httpx_client = httpx.Client(verify=False)
 
 import httpx
 import ssl
@@ -36,7 +38,7 @@ httpx_client = create_secure_http_client()
 # os.environ['HTTP_PROXY'] = http_proxy
 # os.environ['HTTPS_PROXY'] = https_proxy
 
-# os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
+os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
 
 def get_base64(bin_file):
     with open(bin_file, "rb") as f:
@@ -71,7 +73,7 @@ set_background("image8.png")
 
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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", http_client = httpx_client)
+client = OpenAI(api_key="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", http_client = ecb_certifi.where())
 
 page_bg_img = """
 <style>
