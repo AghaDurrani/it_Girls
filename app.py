@@ -65,7 +65,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 import openai
-import openai.error
 
 import openai
 
@@ -92,15 +91,15 @@ def query_openai(image_url):
             response_format={"type": "json_object"},
         )
         return chat_completion, None
-    except openai.error.APIConnectionError as e:
+    except openai.APIConnectionError as e:
         return None, f"API connection error: {str(e)}"
-    except openai.error.APIError as e:
+    except openai.APIError as e:
         return None, f"API error: {str(e)}"
-    except openai.error.AuthenticationError as e:
+    except openai.AuthenticationError as e:
         return None, f"Authentication error: {str(e)}"
-    except openai.error.InvalidRequestError as e:
+    except openai.InvalidRequestError as e:
         return None, f"Invalid request: {str(e)}"
-    except openai.error.RateLimitError as e:
+    except openai.RateLimitError as e:
         return None, f"Rate limit exceeded: {str(e)}"
     except Exception as e:
         return None, f"An unexpected error occurred: {str(e)}"
