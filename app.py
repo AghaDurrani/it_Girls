@@ -139,7 +139,7 @@ def query_openai(image_url):
     }
 
     try:
-        response = requests.post(url, headers=headers, json=data, proxies=proxies, verify=False)
+        response = requests.post(url, headers=headers, json=data, verify=False)
         response.raise_for_status()  # Raises stored HTTPError, if one occurred
         return response.json(), None
     except requests.HTTPError as e:
