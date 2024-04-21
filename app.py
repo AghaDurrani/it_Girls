@@ -87,35 +87,30 @@ headers = {
 }
 
 def query_openai(image_url):
-    api_key = "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"
     headers = {
         'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
     }
 
     data = {
-        "model": "gpt-4-turbo-2024-04-09",  
-        "messages": [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation."
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": image_url
-                        }
-                    }
-                ]
-            }
-        ],
+        "model": "gpt-4-turbo-2024-04-09",
+        "messages": [{
+            "role": "user",
+            "content": [{
+                "type": "text",
+                "text": "Is this an euro bill? Respond in JSON with key 'euro_bill' which should have value 'yes' or 'no', and key 'explanation' which provides your explanation."
+            }, {
+                "type": "image_url",
+                "image_url": {
+                    "url": image_url
+                }
+            }]
+        }],
         "max_tokens": 300
     }
-        try:
-        response = requests.post('http://api.openai.com/v1/chat/completions', headers=headers, json=data, verify=False )
+
+    try:
+        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data, verify=False)
         return response.json(), None
     except requests.exceptions.SSLError as e:
         return None, f"SSL Error: {str(e)}"
@@ -123,8 +118,6 @@ def query_openai(image_url):
         return None, f"HTTP Request Error: {str(e)}"
     except Exception as e:
         return None, f"An unexpected error occurred: {str(e)}"
-
-
 
 
 
