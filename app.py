@@ -111,7 +111,7 @@ def query_openai(image_url):
     }
 
     try:
-        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data, verify=False)
+        response = requests.post('http://api.openai.com/v1/chat/completions', headers=headers, json=data, verify=False)
         return response.json(), None
     except requests.exceptions.SSLError as e:
         return None, f"SSL Error: {str(e)}"
