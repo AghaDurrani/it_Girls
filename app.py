@@ -11,6 +11,20 @@ import httpx
 import base64
 import streamlit as st
 httpx_client = httpx.Client(verify=False)
+
+import httpx
+import ssl
+
+# Create a custom SSL context that specifies using TLS 1.2
+def create_secure_http_client():
+    ssl_context = ssl.create_default_context()
+    # Optionally force the use of TLS 1.2 (uncomment the next line if necessary)
+    # ssl_context.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3
+    client = httpx.Client(http2=True, verify=ssl_context)
+    return client
+
+# Initialize your OpenAI client with this custom-configured HTTP client
+httpx_client = create_secure_http_client()
 #import ecb_certifi
 
 # http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
