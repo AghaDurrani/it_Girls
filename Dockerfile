@@ -7,8 +7,7 @@ FROM python:3.10
 ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 
-# Final stage using Python 3.10
-#FROM python:3.10 as final
+
 
 # Setting the working directory
 WORKDIR /app
@@ -16,8 +15,7 @@ WORKDIR /app
 # Copying all files from the context to the working directory in the container
 COPY . .
 
-RUN pip install --upgrade pip && \
-    pip install -i https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple --extra-index-url https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple -r requirements.txt --no-cache-dir
+RUN pip install -r requirements.txt
 
 
 # Exposing the port that the app will run on
