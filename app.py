@@ -20,13 +20,13 @@ import httpx
 import ssl
 
 
-
-# Create an SSL context that specifies the TLS version
 ssl_context = ssl.create_default_context()
-ssl_context.options &= ~ssl.OP_NO_TLSv1_3  # Ensuring TLS 1.3 is enabled
+ssl_context.options |= ssl.OP_NO_TLSv1  # Disable TLSv1
+ssl_context.options |= ssl.OP_NO_TLSv1_1  # Disable TLSv1.1
+ssl_context.set_ciphers('HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK')
 
-httpx_client = httpx.Client(http2=True, verify=ssl_context)
-
+# Initialize the HTTPX client with the custom SSL context
+httpx_client = httpx.Client(verify=ssl_context)
 
 
 def get_base64(bin_file):
