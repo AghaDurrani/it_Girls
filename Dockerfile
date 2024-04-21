@@ -1,12 +1,14 @@
 # Build stage using Debian slim image from a remote Artifactory repository
-FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
+# FROM artifactory.sofa.dev/docker-remote/debian:12-slim as build
+
+FROM python:3.10
 
 # Arguments for connecting to Artifactory
 ARG ARTIFACTORY_USER
 ARG ARTIFACTORY_PASS
 
 # Final stage using Python 3.10
-FROM python:3.10 as final
+#FROM python:3.10 as final
 
 # Setting the working directory
 WORKDIR /app
