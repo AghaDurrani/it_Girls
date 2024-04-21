@@ -83,46 +83,44 @@ import httpx
 import json
 import traceback
 
+import requests
+import requests
+
+api_key = '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'  # Replace with your actual API key
+headers = {
+    'Authorization': f'Bearer {api_key}',
+    'Content-Type': 'application/json'
+}
+
 def query_openai(image_url):
-    """Queries OpenAI with an image URL and returns the response and any error messages."""
+    api_key = "your_openai_api_key"
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "model": "gpt-4-turbo-2024-04-09",
+        "messages": [{
+            "role": "user",
+            "content": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation."
+        }, {
+            "role": "system",
+            "content": {
+                "image_url": image_url,
+                "detail": "high"
+            }
+        }]
+    }
     try:
-        # Ensure your OpenAI client is correctly initialized elsewhere in your script with httpx_client passed as http_client
-        response = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": image_url
-                        },
-                    ],
-                }
-            ],
-            model="gpt-4-turbo-2024-04-09",
-            response_format={"type": "json_object"},
-        )
-        return response, None
-    except httpx.HTTPStatusError as e:
-        # HTTP status errors are thrown when the response status code indicates an error
-        error_details = f"HTTP status error: {e.response.status_code}, message: {str(e)}"
-        logging.error("HTTP status error", exc_info=True)
-        return None, error_details
-    except httpx.RequestError as e:
-        # Request errors are thrown when a request fails to send
-        error_details = f"Request error: {str(e)}"
-        logging.error("Request connection error", exc_info=True)
-        return None, error_details
+        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+        return response.json(), None
+    except requests.exceptions.SSLError as e:
+        return None, f"SSL Error: {str(e)}"
+    except requests.RequestException as e:
+        return None, f"HTTP Request Error: {str(e)}"
     except Exception as e:
-        # Handle general exceptions that could occur, for instance, in parsing responses or other unexpected conditions
-        traceback_msg = traceback.format_exc()
-        error_details = f"An unexpected error occurred: {str(e)}\n{traceback_msg}"
-        logging.error("General exception", exc_info=True)
-        return None, error_details
+        return None, f"An unexpected error occurred: {str(e)}"
+
 
 
 
