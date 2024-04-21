@@ -93,7 +93,7 @@ headers = {
 }
 
 def query_openai(image_url):
-    api_key = "your_openai_api_key"
+    api_key = "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"
     headers = {
         'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
