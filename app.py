@@ -11,7 +11,7 @@ import httpx
 import base64
 import streamlit as st
 import ecb_certifi
-httpx_client = httpx.Client(verify=ecb_certifi.where())
+#httpx_client = httpx.Client(verify=ecb_certifi.where())
 
 
 #httpx_client = httpx.Client(verify=False)
@@ -20,7 +20,14 @@ import httpx
 import ssl
 
 
-os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
+
+# Create an SSL context that specifies the TLS version
+ssl_context = ssl.create_default_context()
+ssl_context.options &= ~ssl.OP_NO_TLSv1_3  # Ensuring TLS 1.3 is enabled
+
+httpx_client = httpx.Client(http2=True, verify=ssl_context)
+
+
 
 def get_base64(bin_file):
     with open(bin_file, "rb") as f:
