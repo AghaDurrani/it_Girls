@@ -64,28 +64,48 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
+import openai
+import openai.error
+
+import openai
+
 def query_openai(image_url):
-    """Queries OpenAI with an image URL."""
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": image_url, "detail": "high"},
-                    },
-                ],
-            }
-        ],
-        model="gpt-4-turbo-2024-04-09",
-        response_format={"type": "json_object"},
-    )
-    return chat_completion
+    """Queries OpenAI with an image URL and returns both the result and any errors."""
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": image_url, "detail": "high"},
+                        },
+                    ],
+                }
+            ],
+            model="gpt-4-turbo-2024-04-09",
+            response_format={"type": "json_object"},
+        )
+        return chat_completion, None
+    except openai.error.APIConnectionError as e:
+        return None, f"API connection error: {str(e)}"
+    except openai.error.APIError as e:
+        return None, f"API error: {str(e)}"
+    except openai.error.AuthenticationError as e:
+        return None, f"Authentication error: {str(e)}"
+    except openai.error.InvalidRequestError as e:
+        return None, f"Invalid request: {str(e)}"
+    except openai.error.RateLimitError as e:
+        return None, f"Rate limit exceeded: {str(e)}"
+    except Exception as e:
+        return None, f"An unexpected error occurred: {str(e)}"
+
+
 
 
 # Streamlit layout
@@ -106,41 +126,44 @@ if img_file_buffer is not None:
     encoded_data = base64.b64encode(img_file_buffer.getvalue())
     encoded_string = encoded_data.decode("utf-8")
     image_url = f"data:image/jpeg;base64,{encoded_string}"
-    response = query_openai(image_url)
+    response, error = query_openai(image_url)
 
-    response_data = json.loads(response.choices[0].message.content)
-    euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
-    explanation = response_data.get("explanation", "")
-    response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
+    if error:
+        st.error(f"Error: {error}")  # Display the error in the UI
+    else:
+        response_data = json.loads(response.choices[0].message.content)
+        euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
+        explanation = response_data.get("explanation", "")
+        response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
 
-    box_color = "#4CAF50" if euro_bill else "#F44336"
+        box_color = "#4CAF50" if euro_bill else "#F44336"
 
-    explanation_box = f"""
-    <div style="
-        border: 1px solid {box_color};
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin: 1rem 0;
-        background-color: {box_color};
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    ">
-    <p>{explanation}</p>
-    </div>
-    """
-    response_box = f"""
-    <div style="
-        border: 1px solid {box_color};
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin: 1rem 0;
-        background-color: {box_color};
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    ">
-    <p>AI BOT: {response}</p>
-    </div>
-    """
-    st.markdown(response_box, unsafe_allow_html=True)
+        explanation_box = f"""
+        <div style="
+            border: 1px solid {box_color};
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: {box_color};
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        ">
+        <p>{explanation}</p>
+        </div>
+        """
+        response_box = f"""
+        <div style="
+            border: 1px solid {box_color};
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: {box_color};
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        ">
+        <p>AI BOT: {response}</p>
+        </div>
+        """
+        st.markdown(response_box, unsafe_allow_html=True)
+        st.markdown(explanation_box, unsafe_allow_html=True)
 
-    st.markdown(explanation_box, unsafe_allow_html=True)
