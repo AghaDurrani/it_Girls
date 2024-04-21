@@ -11,32 +11,14 @@ import httpx
 import base64
 import streamlit as st
 import ecb_certifi
+httpx_client = httpx.Client(verify=ecb_certifi.where())
+
 
 #httpx_client = httpx.Client(verify=False)
 
 import httpx
 import ssl
 
-# Create a custom SSL context that specifies using TLS 1.2
-def create_secure_http_client():
-    # Create an SSL context
-    ssl_context = ssl.create_default_context()
-    ssl_context.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1  # Disable TLS 1.0 and 1.1
-    ssl_context.options |= ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3  # Disable SSL v2 and v3 for security reasons
-    ssl_context.set_ciphers('HIGH:!aNULL:!MD5:!RC4:!SHA1:!3DES')  # Set secure ciphers
-
-    # Use this SSL context in the HTTP client
-    client = httpx.Client(verify=ssl_context)
-    return client
-
-# Initialize your OpenAI client with this custom-configured HTTP client
-httpx_client = create_secure_http_client()
-#import ecb_certifi
-
-# http_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
-# https_proxy = "http://ap-python-proxy:x2o7rCPYuN1JuV8H@app-gw-2.ecb.de:8080"
-# os.environ['HTTP_PROXY'] = http_proxy
-# os.environ['HTTPS_PROXY'] = https_proxy
 
 os.environ['REQUESTS_CA_BUNDLE'] = ecb_certifi.where()
 
@@ -73,7 +55,7 @@ set_background("image8.png")
 
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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", http_client = ecb_certifi.where())
+client = OpenAI(api_key="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", http_client = httpx_client)
 
 page_bg_img = """
 <style>
