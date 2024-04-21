@@ -92,20 +92,29 @@ def query_openai(image_url):
         'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
     }
+
     data = {
-        "model": "gpt-4-turbo-2024-04-09",
-        "messages": [{
-            "role": "user",
-            "content": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation."
-        }, {
-            "role": "system",
-            "content": {
-                "image_url": image_url,
-                "detail": "high"
+        "model": "gpt-4-turbo-2024-04-09",  
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation."
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": image_url
+                        }
+                    }
+                ]
             }
-        }]
+        ],
+        "max_tokens": 300
     }
-    try:
+        try:
         response = requests.post('http://api.openai.com/v1/chat/completions', headers=headers, json=data, verify=False )
         return response.json(), None
     except requests.exceptions.SSLError as e:
