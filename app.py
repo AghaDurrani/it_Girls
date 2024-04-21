@@ -70,44 +70,82 @@ import openai
 
 import openai
 
+# def query_openai(image_url):
+#     """Queries OpenAI with an image URL and returns both the result and any errors."""
+#     try:
+#         chat_completion = client.chat.completions.create(
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": [
+#                         {
+#                             "type": "text",
+#                             "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
+#                         },
+#                         {
+#                             "type": "image_url",
+#                             "image_url": {"url": image_url, "detail": "high"},
+#                         },
+#                     ],
+#                 }
+#             ],
+#             model="gpt-4-turbo-2024-04-09",
+#             response_format={"type": "json_object"},
+#         )
+#         return chat_completion, None
+#     except openai.APIConnectionError as e:
+#         return None, f"API connection error: {str(e)}"
+#     except openai.APIError as e:
+#         return None, f"API error: {str(e)}"
+#     except openai.AuthenticationError as e:
+#         return None, f"Authentication error: {str(e)}"
+#     except openai.InvalidRequestError as e:
+#         return None, f"Invalid request: {str(e)}"
+#     except openai.RateLimitError as e:
+#         return None, f"Rate limit exceeded: {str(e)}"
+#     except Exception as e:
+#         return None, f"An unexpected error occurred: {str(e)}"
+
+
 def query_openai(image_url):
     """Queries OpenAI with an image URL and returns both the result and any errors."""
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": image_url, "detail": "high"},
-                        },
-                    ],
-                }
-            ],
-            model="gpt-4-turbo-2024-04-09",
-            response_format={"type": "json_object"},
+        response = httpx_client.post(
+            'https://api.openai.com/v1/chat/completions',
+            json={
+                "model": "gpt-4-turbo-2024-04-09",
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Is this an euro bill? Respond in JSON with key 'euro_bill' which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12-year-old and a bit funny.",
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {"url": image_url, "detail": "high"},
+                            },
+                        ],
+                    }
+                ],
+            },
+            headers={"Authorization": f"Bearer YOUR_API_KEY"}
         )
-        return chat_completion, None
-    except openai.APIConnectionError as e:
-        return None, f"API connection error: {str(e)}"
-    except openai.APIError as e:
-        return None, f"API error: {str(e)}"
-    except openai.AuthenticationError as e:
-        return None, f"Authentication error: {str(e)}"
-    except openai.InvalidRequestError as e:
-        return None, f"Invalid request: {str(e)}"
-    except openai.RateLimitError as e:
-        return None, f"Rate limit exceeded: {str(e)}"
+        response.raise_for_status()
+        return response.json(), None
+    except httpx.HTTPStatusError as e:
+        # When the response is an HTTP error
+        return None, f"HTTP Error: {e.response.status_code} - {e.response.text}"
+    except httpx.RequestError as e:
+        # For errors in constructing the request or handling the response
+        return None, f"Request Error: {str(e)}"
+    except httpx.HTTPError as e:
+        # Base class for all HTTPX exceptions, to catch all HTTP-related errors
+        return None, f"HTTP Error: {str(e)}"
     except Exception as e:
+        # Generic catch-all for any other exceptions
         return None, f"An unexpected error occurred: {str(e)}"
-
-
-
 
 # Streamlit layout
 st.markdown(
