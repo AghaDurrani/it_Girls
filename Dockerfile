@@ -19,6 +19,9 @@ RUN pip install --upgrade pip && \
     pip install -i https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple --extra-index-url https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple -r requirements.txt --no-cache-dir
 RUN pip install -r requirements.txt
 
+# Upgrade urllib3 separately
+RUN pip install -i https://artifactory.sofa.dev/artifactory/api/pypi/pypi-remote/simple --extra-index-url https://artifactory.sofa.dev/artifactory/api/pypi/pypi-local/simple --upgrade urllib3
+
 
 # Exposing the port that the app will run on
 EXPOSE 8501
