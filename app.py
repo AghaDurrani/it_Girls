@@ -10,10 +10,16 @@ import urllib3
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()
+import pickle
 
-api_key = os.getenv('KEY')
+# Specify the file name
+file_name = 'data.pickle'
 
+# Open the file in binary read mode and unpickle the data
+with open(file_name, 'rb') as file:
+    api_key = pickle.load(file)
+
+print("Data loaded from pickle file:", loaded_data)
 
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
@@ -59,7 +65,7 @@ set_background("image8.png")
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key = os.getenv('KEY'),
+    api_key = api_key,
     http_client=httpx_client,
 )
 
@@ -120,7 +126,7 @@ def query_openai(image_url):
     """Queries OpenAI with an image URL and returns both the result and any errors."""
     url = 'http://api.openai.com/v1/chat/completions'
     headers = {
-        'Authorization': 'Bearer {api_key}',  # Replace YOUR_API_KEY with your actual API key
+        'Authorization': 'Befarer {api_key}',  # Replace YOUR_API_KEY with your actual API key
         'Content-Type': 'application/json'
     }
     data = {
