@@ -6,7 +6,6 @@ import json
 import httpx
 import base64
 import streamlit as st
-import ecb_certifi
 import urllib3
 import requests
 
