@@ -8,8 +8,12 @@ import base64
 import streamlit as st
 import urllib3
 import requests
+from dotenv import load_dotenv
 
-api_key = st.secrets["API_KEY"]
+load_dotenv()
+
+api_key = os.getenv('KEY')
+
 
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
@@ -55,7 +59,7 @@ set_background("image8.png")
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key = st.secrets["API_KEY"],
+    api_key = os.getenv('KEY'),
     http_client=httpx_client,
 )
 
