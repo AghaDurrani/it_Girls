@@ -9,8 +9,7 @@ import streamlit as st
 import urllib3
 import requests
 
-api_key = "sk-proj-LupEXwrlUQQfaj5u6XOgT3BlbkFJAQDI3msA7WPvzTLbD5tl"
-
+api_key = "os.get_env("API_KEY")
 
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
@@ -56,7 +55,7 @@ set_background("image8.png")
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key="sk-proj-LupEXwrlUQQfaj5u6XOgT3BlbkFJAQDI3msA7WPvzTLbD5tl",
+    api_key = "os.get_env("API_KEY"),
     http_client=httpx_client,
 )
 
