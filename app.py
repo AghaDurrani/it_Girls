@@ -19,6 +19,7 @@ file_name = 'api.pickle'
 with open(file_name, 'rb') as file:
     api_key = pickle.load(file)
 
+print(api_key)
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
 httpx_client = httpx.Client(
