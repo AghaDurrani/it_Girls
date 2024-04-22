@@ -6,26 +6,9 @@ import json
 import httpx
 import base64
 import streamlit as st
-import urllib3
-import requests
-from dotenv import load_dotenv
-
 import pickle
 
-# Specify the file name
-file_name = 'api.pickle'
-
-# Open the file in binary read mode and unpickle the data
-with open(file_name, 'rb') as file:
-    api_key = pickle.load(file)
-
-print(api_key)
-
-# Create an HTTPX client with the proxy settings and disabled SSL verification
-httpx_client = httpx.Client(
-    verify=False,
-    headers={"Authorization": f"Bearer {api_key}"}
-)
+httpx_client = httpx.Client(verify=False)
 
 
 def get_base64(bin_file):
@@ -34,7 +17,7 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 
-#env.set_proxies(use_cert=False)
+
 
 
 def set_background(png_file):
@@ -61,10 +44,17 @@ def set_background(png_file):
 
 set_background("image8.png")
 
+import pickle 
+
+file_name = 'api.pickle'
+
+# Open the file in binary read mode and unpickle the data
+with open(file_name, 'rb') as file:
+    api_key = pickle.load(file)
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key = api_key,
+    api_key=api_key,
     http_client=httpx_client,
 )
 
@@ -80,63 +70,16 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
-import openai
-
-import openai
-
-# def query_openai(image_url):
-#     """Queries OpenAI with an image URL and returns both the result and any errors."""
-#     try:
-#         chat_completion = client.chat.completions.create(
-#             messages=[
-#                 {
-#                     "role": "user",
-#                     "content": [
-#                         {
-#                             "type": "text",
-#                             "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
-#                         },
-#                         {
-#                             "type": "image_url",
-#                             "image_url": {"url": image_url, "detail": "high"},
-#                         },
-#                     ],
-#                 }
-#             ],
-#             model="gpt-4-turbo-2024-04-09",
-#             response_format={"type": "json_object"},
-#         )
-#         return chat_completion, None
-#     except openai.APIConnectionError as e:
-#         return None, f"API connection error: {str(e)}"
-#     except openai.APIError as e:
-#         return None, f"API error: {str(e)}"
-#     except openai.AuthenticationError as e:
-#         return None, f"Authentication error: {str(e)}"
-#     except openai.InvalidRequestError as e:
-#         return None, f"Invalid request: {str(e)}"
-#     except openai.RateLimitError as e:
-#         return None, f"Rate limit exceeded: {str(e)}"
-#     except Exception as e:
-#         return None, f"An unexpected error occurred: {str(e)}"
-
-
 def query_openai(image_url):
-    """Queries OpenAI with an image URL and returns both the result and any errors."""
-    url = 'http://api.openai.com/v1/chat/completions'
-    headers = {
-        'Authorization': 'Befarer {api_key}',  # Replace YOUR_API_KEY with your actual API key
-        'Content-Type': 'application/json'
-    }
-    data = {
-        "model": "gpt-4-turbo-2024-04-09",
-        "messages": [
+    """Queries OpenAI with an image URL."""
+    chat_completion = client.chat.completions.create(
+        messages=[
             {
                 "role": "user",
                 "content": [
                     {
                         "type": "text",
-                        "text": "Is this an euro bill? Respond in JSON with key 'euro_bill' which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12-year-old and a bit funny.",
+                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
                     },
                     {
                         "type": "image_url",
@@ -145,21 +88,11 @@ def query_openai(image_url):
                 ],
             }
         ],
-    }
+        model="gpt-4-turbo-2024-04-09",
+        response_format={"type": "json_object"},
+    )
+    return chat_completion
 
-    try:
-        response = requests.post(url, headers=headers, json=data, verify=False)
-        response.raise_for_status()  # Raises stored HTTPError, if one occurred
-        return response.json(), None
-    except requests.HTTPError as e:
-        # When the response is an HTTP error
-        return None, f"HTTP Error: {e.response.status_code} - {e.response.text}"
-    except requests.RequestException as e:
-        # For network-related errors
-        return None, f"Request Error: {str(e)}"
-    except Exception as e:
-        # Generic catch-all for any other exceptions
-        return None, f"An unexpected error occurred: {str(e)}"
 
 # Streamlit layout
 st.markdown(
@@ -179,44 +112,41 @@ if img_file_buffer is not None:
     encoded_data = base64.b64encode(img_file_buffer.getvalue())
     encoded_string = encoded_data.decode("utf-8")
     image_url = f"data:image/jpeg;base64,{encoded_string}"
-    response, error = query_openai(image_url)
+    response = query_openai(image_url)
 
-    if error:
-        st.error(f"Error: {error}")  # Display the error in the UI
-    else:
-        response_data = json.loads(response.choices[0].message.content)
-        euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
-        explanation = response_data.get("explanation", "")
-        response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
+    response_data = json.loads(response.choices[0].message.content)
+    euro_bill = response_data.get("euro_bill", "no").lower() == "yes"
+    explanation = response_data.get("explanation", "")
+    response = "YES EURO BILL :)!" if euro_bill else "NOT A EURO BILL"
 
-        box_color = "#4CAF50" if euro_bill else "#F44336"
+    box_color = "#4CAF50" if euro_bill else "#F44336"
 
-        explanation_box = f"""
-        <div style="
-            border: 1px solid {box_color};
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            background-color: {box_color};
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        ">
-        <p>{explanation}</p>
-        </div>
-        """
-        response_box = f"""
-        <div style="
-            border: 1px solid {box_color};
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            background-color: {box_color};
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        ">
-        <p>AI BOT: {response}</p>
-        </div>
-        """
-        st.markdown(response_box, unsafe_allow_html=True)
-        st.markdown(explanation_box, unsafe_allow_html=True)
+    explanation_box = f"""
+    <div style="
+        border: 1px solid {box_color};
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin: 1rem 0;
+        background-color: {box_color};
+        color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    ">
+    <p>{explanation}</p>
+    </div>
+    """
+    response_box = f"""
+    <div style="
+        border: 1px solid {box_color};
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin: 1rem 0;
+        background-color: {box_color};
+        color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    ">
+    <p>AI BOT: {response}</p>
+    </div>
+    """
+    st.markdown(response_box, unsafe_allow_html=True)
 
+    st.markdown(explanation_box, unsafe_allow_html=True)
