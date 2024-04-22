@@ -13,13 +13,11 @@ from dotenv import load_dotenv
 import pickle
 
 # Specify the file name
-file_name = 'data.pickle'
+file_name = 'data.pkl'
 
 # Open the file in binary read mode and unpickle the data
 with open(file_name, 'rb') as file:
     api_key = pickle.load(file)
-
-print("Data loaded from pickle file:", loaded_data)
 
 
 # Create an HTTPX client with the proxy settings and disabled SSL verification
