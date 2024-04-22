@@ -9,7 +9,7 @@ import streamlit as st
 import urllib3
 import requests
 
-api_key = os.getenv('api_key')
+api_key = "sk-proj-LupEXwrlUQQfaj5u6XOgT3BlbkFJAQDI3msA7WPvzTLbD5tl"
 
 
 
@@ -56,7 +56,7 @@ set_background("image8.png")
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key=os.getenv('api_key'),
+    api_key="sk-proj-LupEXwrlUQQfaj5u6XOgT3BlbkFJAQDI3msA7WPvzTLbD5tl",
     http_client=httpx_client,
 )
 
