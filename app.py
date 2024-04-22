@@ -79,7 +79,7 @@ def query_openai(image_url):
                 "content": [
                     {
                         "type": "text",
-                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny",
+                        "text": "is this an euro bill? respond in json with key euro_bill which should have value yes or no, and key explanation which provides your explanation. The explanation should be at the level of a 12 year old and a bit funny. If it is non-euro note and you are confident about the currency and the value, try to mention how much the note is worth in euro.",
                     },
                     {
                         "type": "image_url",
