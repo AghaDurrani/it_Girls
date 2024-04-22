@@ -1,6 +1,5 @@
 requests
 streamlit==1.29.0
 httpx
-ecb_certifi>=4.1.0
 openai==1.6.1
 urllib3==1.23
