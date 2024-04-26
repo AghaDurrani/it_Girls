@@ -8,6 +8,7 @@ import base64
 import streamlit as st
 import pickle
 
+file_name = 'api.pickle'
 httpx_client = httpx.Client(verify=False)
 
 ## helper functions 
@@ -40,8 +41,6 @@ def set_background(png_file):
 
 
 set_background("image8.png")
-
-file_name = 'api.pickle'
 
 # Open the file in binary read mode and unpickle the data
 with open(file_name, 'rb') as file:
