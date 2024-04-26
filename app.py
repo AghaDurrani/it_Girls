@@ -39,7 +39,7 @@ def set_background(png_file):
     </style>
     """
 
-    def query_openai(image_url):
+def query_openai(image_url):
     """Queries OpenAI with an image URL."""
     chat_completion = client.chat.completions.create(
         messages=[
