@@ -10,15 +10,12 @@ import pickle
 
 httpx_client = httpx.Client(verify=False)
 
+## helper functions 
 
 def get_base64(bin_file):
     with open(bin_file, "rb") as f:
         data = f.read()
     return base64.b64encode(data).decode()
-
-
-
-
 
 def set_background(png_file):
     bin_str = get_base64(png_file)
@@ -43,8 +40,6 @@ def set_background(png_file):
 
 
 set_background("image8.png")
-
-import pickle 
 
 file_name = 'api.pickle'
 
@@ -99,6 +94,7 @@ st.markdown(
     "<h1 style='color: #FFFFFF;'>Are you holding a Euro bill?</h1>",
     unsafe_allow_html=True,
 )
+
 # st.markdown(
 #     "<h2 style='color: #FFFFFF; font-weight: bold;'>Are you holding a Euro bill?</h2>",
 #     unsafe_allow_html=True,
