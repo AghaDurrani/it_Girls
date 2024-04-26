@@ -70,13 +70,11 @@ page_bg_img = """
 }
 </style>
 """
-    
+set_background("image8.png")    
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 ## take care of the background
-set_background("image8.png")
-st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 # Open the file in binary read mode and unpickle the data
